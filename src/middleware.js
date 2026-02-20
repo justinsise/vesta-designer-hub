@@ -34,10 +34,20 @@ export async function middleware(request) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  // Coming soon mode — block all routes except home page and static assets
+  const comingSoon = process.env.NEXT_PUBLIC_COMING_SOON === 'true'
+  if (comingSoon && request.nextUrl.pathname !== '/') {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
 
-  // Protect /project-close route
-  if (request.nextUrl.pathname.startsWith('/project-close') && !user) {
+  // Refresh the session — this ensures cookies stay valid
+  const { data: { session } } = await supabase.auth.getSession()
+
+  // Protect authenticated routes
+  const protectedPaths = ['/project-close', '/my-submissions']
+  const isProtected = protectedPaths.some(p => request.nextUrl.pathname.startsWith(p))
+
+  if (isProtected && !session) {
     const redirectUrl = new URL('/login', request.url)
     redirectUrl.searchParams.set('next', request.nextUrl.pathname)
     return NextResponse.redirect(redirectUrl)
@@ -47,5 +57,13 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/project-close/:path*'],
+  matcher: [
+    /*
+     * Match all routes except:
+     * - _next/static (static files)
+     * - _next/image (image optimization)
+     * - favicon.ico
+     */
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+  ],
 }

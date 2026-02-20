@@ -19,7 +19,7 @@ export default function Header() {
           <div className="w-7 h-7 bg-vesta-charcoal rounded-sm flex items-center justify-center">
             <span className="text-vesta-cream font-serif text-xs">V</span>
           </div>
-          <span className="font-serif text-lg text-vesta-charcoal">Vesta</span>
+          <span className="font-serif text-lg text-vesta-charcoal">Vesta Designer Hub</span>
         </Link>
         {user && (
           <span className="text-xs text-vesta-muted">{user.email}</span>

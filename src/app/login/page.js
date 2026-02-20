@@ -26,7 +26,7 @@ function LoginContent() {
           <div className="w-14 h-14 bg-vesta-charcoal rounded-sm flex items-center justify-center mx-auto mb-6">
             <span className="text-vesta-cream font-serif text-2xl">V</span>
           </div>
-          <h1 className="font-serif text-3xl text-vesta-charcoal mb-2">Welcome back</h1>
+          <h1 className="font-serif text-3xl text-vesta-charcoal mb-2">Vesta Designer Hub</h1>
           <p className="text-vesta-muted">Sign in to access Vesta Design Studio</p>
         </div>
 

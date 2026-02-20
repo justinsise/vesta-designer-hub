@@ -1,6 +1,36 @@
 // All form questions organized by section
 // Field types: text, textarea, select, boolean, yes_no_other, url
 
+// Step 0: Project confirmation (handled separately in the form UI)
+export const CONFIRM_FIELDS = [
+  {
+    name: 'project_id',
+    label: 'What is the project ID?',
+    type: 'text',
+    required: true,
+    placeholder: 'e.g. VH-2025-001',
+    autofillTrigger: true,
+  },
+  {
+    name: 'market',
+    label: 'Which market does this project belong to?',
+    type: 'select',
+    options: ['San Francisco', 'Los Angeles', 'New York City', 'Florida'],
+    required: true,
+    autofilled: true,
+    helperText: 'Auto-filled from project ID when available',
+  },
+  {
+    name: 'address',
+    label: 'Please specify the address of this project',
+    type: 'text',
+    required: true,
+    autofilled: true,
+    helperText: 'Auto-filled from project ID when available',
+  },
+]
+
+// Steps 1-6: Form sections (after project is confirmed)
 export const FORM_SECTIONS = [
   {
     id: 'project',
@@ -8,31 +38,6 @@ export const FORM_SECTIONS = [
     subtitle: 'Basic information about the project',
     icon: '01',
     fields: [
-      {
-        name: 'project_id',
-        label: 'What is the project ID?',
-        type: 'text',
-        required: true,
-        placeholder: 'e.g. VH-2025-001',
-        autofillTrigger: true, // triggers autofill of market + address
-      },
-      {
-        name: 'market',
-        label: 'Which market does this project belong to?',
-        type: 'select',
-        options: ['San Francisco', 'Los Angeles', 'New York City', 'Florida'],
-        required: true,
-        autofilled: true,
-        helperText: 'Auto-filled from project ID when available',
-      },
-      {
-        name: 'address',
-        label: 'Please specify the address of this project',
-        type: 'text',
-        required: true,
-        autofilled: true,
-        helperText: 'Auto-filled from project ID when available',
-      },
       {
         name: 'is_project_complete',
         label: 'Is the project/job complete?',
@@ -374,6 +379,13 @@ export const FORM_SECTIONS = [
 // Flatten all field names for building the initial form state
 export function getInitialFormState() {
   const state = {}
+
+  // Confirm fields
+  CONFIRM_FIELDS.forEach(field => {
+    state[field.name] = ''
+  })
+
+  // Section fields
   FORM_SECTIONS.forEach(section => {
     section.fields.forEach(field => {
       if (field.type === 'boolean') {

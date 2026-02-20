@@ -1,7 +1,7 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Vesta Design Studio',
+  title: 'Vesta Designer Hub',
   description: 'Designer tools and resources for Vesta Home',
 }
 
