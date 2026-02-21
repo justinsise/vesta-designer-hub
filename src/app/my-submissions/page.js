@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase-client'
+import { createClient, designerHubSchema } from '@/lib/supabase-client'
 import { FORM_SECTIONS } from '@/lib/formSections'
 import Header from '@/components/Header'
 import Link from 'next/link'
@@ -103,7 +103,7 @@ export default function MySubmissions() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
 
-      const { data, error } = await supabase
+      const { data, error } = await designerHubSchema(supabase)
         .from('project_close_submissions')
         .select('*')
         .eq('submitted_by', user.email)

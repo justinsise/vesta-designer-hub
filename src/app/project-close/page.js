@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase-client'
+import { createClient, vestaSchema, designerHubSchema } from '@/lib/supabase-client'
 import { FORM_SECTIONS, CONFIRM_FIELDS, getInitialFormState } from '@/lib/formSections'
 import Header from '@/components/Header'
 import FormStepper from '@/components/FormStepper'
@@ -31,7 +31,7 @@ export default function ProjectCloseForm() {
     setAutofillLoading(true)
     setAutofillFound(false)
     try {
-      const { data, error } = await supabase
+      const { data, error } = await vestaSchema(supabase)
         .from('projects')
         .select('market, address, sales_person, designer')
         .eq('id', projectId)
@@ -108,7 +108,7 @@ export default function ProjectCloseForm() {
 
       payload.submitted_by = user?.email || 'unknown'
 
-      const { error: dbError } = await supabase
+      const { error: dbError } = await designerHubSchema(supabase)
         .from('project_close_submissions')
         .insert([payload])
 
